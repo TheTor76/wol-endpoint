@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y autoremove && \
     apt-get clean && \
-    apt-get install etherwake
+    apt-get install -y etherwake locales
 
 #####################
 # START COPY from official powershell dockerfile @ https://github.com/PowerShell/PowerShell
@@ -12,6 +12,7 @@ RUN apt-get update && \
 
 # Setup the locale #not really sure why care about lang, etc but ok???
 ENV LANG en_US.UTF-8
+ENV LANGUAGE $LANG
 ENV LC_ALL $LANG
 RUN locale-gen $LANG && update-locale
 
