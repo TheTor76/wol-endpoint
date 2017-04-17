@@ -1,20 +1,26 @@
 FROM node:7.7.3
 
+ENV DEBCONF_NONINTERACTIVE_SEEN="true" \
+    DEBIAN_FRONTEND="noninteractive"
+
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y autoremove && \
-    apt-get clean && \
-    apt-get install -y etherwake locales
+    apt-get clean
+
+RUN apt-get install -y etherwake locales locales-all #install locales-all to stop the crap below erroring
 
 #####################
 # START COPY from official powershell dockerfile @ https://github.com/PowerShell/PowerShell
 #####################
 
 # Setup the locale #not really sure why care about lang, etc but ok???
-ENV LANG en_US.UTF-8
-ENV LANGUAGE $LANG
-ENV LC_ALL $LANG
-RUN locale-gen $LANG && update-locale
+ENV LANG="en_GB.UTF-8"
+ENV LANGUAGE="$LANG" \
+    LC_TYPE="$LANG" \
+    LC_ALL="$LANG"
+
+RUN locale-gen $LANG && update-locale && dpkg-reconfigure locales #one of these is bound to work :/
 
 RUN apt-get install -y --no-install-recommends \
         apt-utils \
