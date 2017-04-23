@@ -3,9 +3,11 @@ FROM node:7.7.3
 ENV DEBCONF_NONINTERACTIVE_SEEN="true" \
     DEBIAN_FRONTEND="noninteractive"
 
-ENV REMOTE_MACHINE_IP="0.0.0.0" \
-    REMOTE_USERNAME="" \
-    REMOTE_PASSWORD=""
+ENV WINRM_USERNAME="administrator" \
+    WINRM_PASSWORD="xxxx" \
+    WINRM_ENDPOINT="https://127.0.0.1:5986/wsman" \
+    USE_SSL="1" \
+    SSL_PEER_FINGERPRINT="xxxx"
 
 RUN apt-get update && \
     apt-get -y upgrade && \
@@ -13,9 +15,8 @@ RUN apt-get update && \
     apt-get clean
 
 #install locales-all below to stop the crap further down throwing errors
-RUN apt-get install -y etherwake locales locales-all python3 && \
-    curl https://bootstrap.pypa.io/get-pip.py | python3 && \
-    python3 -m pip install pywinrm
+RUN apt-get install -y etherwake locales locales-all ruby-full && \
+    gem install -r winrm
 
 # installing powershell below but not used as it currently doesn't work with existing remote windows powershell
 # someone decided a dirty hack/kluge is the best option to use instead of doing it properly in
@@ -58,11 +59,9 @@ RUN chmod 0555 /entrypoint
 
 WORKDIR /app
 ADD src/server.js ./
-ADD src/open_winrm.py ./
+ADD src/open_winrm.rb ./
 RUN npm init -y && \
-    mkdir /usr/share/ca-certificates/remote-ps/ && \
-    chmod 0755 /usr/share/ca-certificates/remote-ps/ && \
-    chmod 0555 open_winrm.py server.js
+    chmod 0555 open_winrm.rb server.js
 
 VOLUME ["/var/log"]
 
