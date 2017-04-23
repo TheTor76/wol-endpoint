@@ -1,4 +1,4 @@
-$dnsName = "SOME_NAME,192.168.56.0";
+$dnsName = "SOME_NAME,SOME_IP";
 $certPath = "c:\ps-cert.crt";
 
 #create and export cert

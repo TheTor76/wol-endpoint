@@ -20,9 +20,31 @@ function handleConnection(conn) {
   conn.on('error', onConnError);
 
   function onConnData(d) {
+    d = d.trim().toLowerCase();
     console.log('connection data from %s: %j', remoteAddress, d);
+    var sys = require('sys')
+    var exec = require('child_process').exec;
+    var cmd;
 
-    //TODO something!!??
+    switch(d){
+      case 'shutdown':
+      case 'psshutdown/sleep':
+      case 'sleep':
+        cmd = 'ruby ' + d;
+      break;
+      default:
+        conn.write('unknown data value returing early');
+        return;
+    }
+
+    console.log('Running @cmd=' + cmd);
+    exec(cmd, function (error, stdout, stderr) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+        console.log('exec error: ' + error);
+      }
+    });
 
     conn.write("done");
   }
