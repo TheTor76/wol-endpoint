@@ -30,10 +30,10 @@ function handleConnection(conn) {
       case 'shutdown':
       case 'psshutdown/sleep':
       case 'sleep':
-        cmd = 'ruby /app/open_winrm.rb' + d;
+        cmd = 'ruby /app/open_winrm.rb ' + d;
       break;
       case 'wake':
-        cmd = '/app/send_wol.sh' + process.env.WOL_MAC;
+        cmd = '/app/send_wol.sh ' + process.env.WOL_MAC;
       break
       default:
         conn.write('unknown data value returing early');
