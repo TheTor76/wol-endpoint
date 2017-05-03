@@ -3,7 +3,9 @@
 require 'winrm'
 
 command = ''
-if ARGV[0] == 'shutdown' then
+if ARGV[0] == 'test' then
+	command = 'Get-Culture'
+elsif ARGV[0] == 'shutdown' then
 	command = 'shutdown /s /f /t 0'
 elsif ARGV[0] == 'psshutdown/sleep'
 	command = 'psshutdown -d -t 0'
