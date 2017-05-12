@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 MAC_ADDR=$1;
-wakeonlan $MAC_ADDR;
+wakeonlan -i $WOL_BROADCAST_ADDR $MAC_ADDR;

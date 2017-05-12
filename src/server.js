@@ -21,7 +21,7 @@ function handleConnection(conn) {
 
   function onConnData(d) {
     d = d.trim().toLowerCase();
-    console.log('connection data from %s: %j', remoteAddress, d);
+    console.log('connection from %s @ %s: "%s"', remoteAddress, new Date().toISOString(), d);
     var sys = require('sys')
     var exec = require('child_process').exec;
     var cmd;

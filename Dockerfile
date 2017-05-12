@@ -8,7 +8,8 @@ ENV WOL_MAC="" \
     WINRM_PASSWORD="xxxx" \
     WINRM_ENDPOINT="https://127.0.0.1:5986/wsman" \
     USE_SSL="1" \
-    SSL_PEER_FINGERPRINT="xxxx"
+    SSL_PEER_FINGERPRINT="xxxx" \
+    WOL_BROADCAST_ADDR="255.255.255.255"
 
 RUN apt-get update && \
     apt-get -y upgrade && \
