@@ -3,7 +3,7 @@ FROM node:7.7.3
 ENV DEBCONF_NONINTERACTIVE_SEEN="true" \
     DEBIAN_FRONTEND="noninteractive"
 
-ENV LISTEN_ON="127.0.0.1" \
+ENV LISTEN_IP="127.0.0.1" \
     LISTEN_PORT="9000" \
     WOL_MAC="" \
     WINRM_USERNAME="administrator" \

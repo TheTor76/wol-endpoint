@@ -5,7 +5,7 @@ var net = require('net');
 var server = net.createServer();
 server.on('connection', handleConnection);
 
-server.listen(process.env.LISTEN_PORT, process.env.LISTEN_ON, 511, function() {
+server.listen(process.env.LISTEN_PORT, process.env.LISTEN_IP, 511, function() {
   console.log('server listening to %j', server.address());
 });
 
