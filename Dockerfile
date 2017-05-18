@@ -3,7 +3,8 @@ FROM node:7.7.3
 ENV DEBCONF_NONINTERACTIVE_SEEN="true" \
     DEBIAN_FRONTEND="noninteractive"
 
-ENV WOL_MAC="" \
+ENV LISTEN_ON="127.0.0.1" \
+    WOL_MAC="" \
     WINRM_USERNAME="administrator" \
     WINRM_PASSWORD="xxxx" \
     WINRM_ENDPOINT="https://127.0.0.1:5986/wsman" \
