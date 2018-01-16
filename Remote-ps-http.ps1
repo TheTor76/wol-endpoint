@@ -13,3 +13,6 @@ New-Item -Path WSMan:\LocalHost\Listener -Transport HTTP -Address * -Force
 
 #allow https through firewall
 New-NetFirewallRule -DisplayName "Windows Remote Management (HTTP-In)" -Name "Windows Remote Management (HTTPS-In)" -Profile Any -LocalPort 5985 -Protocol TCP
+
+ # Show permissions box (only need if running as non admin)
+ Set-PSSessionConfiguration -Name Microsoft.PowerShell -showSecurityDescriptorUI
