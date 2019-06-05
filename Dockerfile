@@ -13,13 +13,11 @@ ENV LISTEN_IP="127.0.0.1" \
     SSL_PEER_FINGERPRINT="xxxx" \
     WOL_BROADCAST_ADDR="255.255.255.255"
 
-RUN apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y autoremove && \
-    apt-get clean
+WORKDIR /]
+RUN apt update && apt -y upgrade
 
 #install locales-all below to stop the crap further down throwing errors
-RUN apt-get install -y etherwake locales locales-all ruby-full && \
+RUN apt install -y etherwake locales locales-all ruby-full && \
     gem install -r winrm
 
 # installing powershell below but not used as it currently doesn't work with existing remote windows powershell
@@ -38,7 +36,7 @@ ENV LANGUAGE="$LANG" \
 
 RUN locale-gen $LANG && update-locale && dpkg-reconfigure locales #one of these is bound to work :/
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt install -y --no-install-recommends \
         apt-utils \
         ca-certificates \
         curl \
@@ -51,8 +49,8 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list
 
 # Install powershell from Microsoft Repo
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends powershell
+RUN apt update && \
+    apt install -y --no-install-recommends powershell
 
 ##################### END COPY #####################
 
