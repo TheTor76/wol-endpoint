@@ -29,6 +29,7 @@ WORKDIR /app
 ADD src/server.js ./
 ADD src/open_winrm.rb ./
 ADD src/send_wol.sh ./
+RUN apt-get update && apt-get install -y apt-transport-https
 RUN apt install -y npm
 RUN npm init -y && \
     chmod 0555 open_winrm.rb server.js send_wol.sh
