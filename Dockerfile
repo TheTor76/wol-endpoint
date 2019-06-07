@@ -18,7 +18,7 @@ RUN apt update && apt -y upgrade
 
 #install locales-all below to stop the crap further down throwing errors
 RUN apt install -y etherwake locales locales-all ruby-full ruby-dev 
-RUN sudo gem update --system
+RUN gem update --system
 RUN gem install -r winrm
 
 # installing powershell below but not used as it currently doesn't work with existing remote windows powershell
