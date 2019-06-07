@@ -1,8 +1,8 @@
-FROM node:latest
+FROM node:10.16.0
 
-RUN groupadd --gid 1000 node \
-  && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
-  
+ENV DEBCONF_NONINTERACTIVE_SEEN="true" \
+    DEBIAN_FRONTEND="noninteractive"
+
 ENV LISTEN_IP="127.0.0.1" \
     LISTEN_PORT="9000" \
     WOL_MAC="" \
@@ -11,51 +11,64 @@ ENV LISTEN_IP="127.0.0.1" \
     WINRM_ENDPOINT="https://127.0.0.1:5986/wsman" \
     USE_SSL="1" \
     SSL_PEER_FINGERPRINT="xxxx" \
-    WOL_BROADCAST_ADDR="255.255.255.255" \
-	NODE_VERSION = 0.0.0
+    WOL_BROADCAST_ADDR="255.255.255.255"
 
-RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
-  && case "${dpkgArch##*-}" in \
-    amd64) ARCH='x64';; \
-    ppc64el) ARCH='ppc64le';; \
-    s390x) ARCH='s390x';; \
-    arm64) ARCH='arm64';; \
-    armhf) ARCH='armv7l';; \
-    i386) ARCH='x86';; \
-    *) echo "unsupported architecture"; exit 1 ;; \
-  esac \
-  # gpg keys listed at https://github.com/nodejs/node#release-keys
-  && set -ex \
-  && for key in \
-    "${NODE_KEYS[@]}"
-  ; do \
-    gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" || \
-    gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$key" || \
-    gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key" ; \
-  done \
-  && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz" \
-  && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-  && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
-  && grep " node-v$NODE_VERSION-linux-$ARCH.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
-  && tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
-  && rm "node-v$NODE_VERSION-linux-$ARCH.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
-  && ln -s /usr/local/bin/node /usr/local/bin/nodejs
-  
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get -y autoremove && \
+    apt-get clean
+
 #install locales-all below to stop the crap further down throwing errors
-RUN apt install -y etherwake locales locales-all ruby-full && \
+RUN apt-get install -y etherwake locales locales-all ruby-full && \
     gem install -r winrm
 
-COPY src/entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+# installing powershell below but not used as it currently doesn't work with existing remote windows powershell
+# someone decided a dirty hack/kluge is the best option to use instead of doing it properly in
+# the main reason to use powershell on linux, tl;dr WTF??!!
+# see https://github.com/PowerShell/PowerShell/tree/master/demos/SSHRemoting
+#####################
+# START COPY from official powershell dockerfile @ https://github.com/PowerShell/PowerShell
+#####################
+
+# Setup the locale #not really sure why care about lang, etc but ok???
+ENV LANG="en_GB.UTF-8"
+ENV LANGUAGE="$LANG" \
+    LC_TYPE="$LANG" \
+    LC_ALL="$LANG"
+
+RUN locale-gen $LANG && update-locale && dpkg-reconfigure locales #one of these is bound to work :/
+
+RUN apt-get install -y --no-install-recommends \
+        apt-utils \
+        ca-certificates \
+        curl \
+        apt-transport-https
+
+# Import the public repository GPG keys for Microsoft
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
+# Register the Microsoft Ubuntu 14.04 repository
+RUN curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list
+
+# Install powershell from Microsoft Repo
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends powershell
+
+##################### END COPY #####################
+
+RUN rm -rf /var/lib/apt/lists/*
+
+ADD src/entrypoint.sh /entrypoint
+RUN chmod 0555 /entrypoint
 
 WORKDIR /app
 ADD src/server.js ./
 ADD src/open_winrm.rb ./
 ADD src/send_wol.sh ./
-RUN chmod 0555 open_winrm.rb server.js send_wol.sh
+RUN npm init -y && \
+    chmod 0555 open_winrm.rb server.js send_wol.sh
 
 VOLUME ["/var/log"]
 
 EXPOSE 9000
-
-CMD [ "node" ]
+CMD /entrypoint
