@@ -42,7 +42,8 @@ RUN apt install -y --no-install-recommends \
         apt-utils \
         ca-certificates \
         curl \
-        apt-transport-https
+        apt-transport-https\
+        gnupg2
 
 # Import the public repository GPG keys for Microsoft
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
