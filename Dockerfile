@@ -12,7 +12,7 @@ ENV LISTEN_IP="127.0.0.1" \
     USE_SSL="1" \
     SSL_PEER_FINGERPRINT="xxxx" \
     WOL_BROADCAST_ADDR="255.255.255.255" \
-	NODE_VERSION 0.0.0
+	NODE_VERSION = 0.0.0
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && case "${dpkgArch##*-}" in \
