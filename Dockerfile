@@ -1,4 +1,4 @@
-FROM node:7.7.3
+FROM ubuntu:18.04
 
 ENV DEBCONF_NONINTERACTIVE_SEEN="true" \
     DEBIAN_FRONTEND="noninteractive"
