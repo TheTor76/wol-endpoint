@@ -17,7 +17,8 @@ WORKDIR /]
 RUN apt update && apt -y upgrade
 
 #install locales-all below to stop the crap further down throwing errors
-RUN apt install -y etherwake locales locales-all ruby-full ruby-dev 
+RUN apt install -y etherwake locales locales-all ruby-full ruby-dev gcc libffi-dev make
+
 RUN gem update --system
 RUN gem install -r winrm
 
