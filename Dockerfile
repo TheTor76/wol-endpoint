@@ -49,7 +49,7 @@ RUN apt install -y --no-install-recommends \
 RUN wget -q https://github.com/PowerShell/PowerShell/releases/download/v6.2.1/powershell_6.2.1-1.ubuntu.18.04_amd64.deb
 # Register the Microsoft repository GPG keys
 #dpkg -i packages-microsoft-prod.deb
-RUN dpkg -i powershell_6.2.0-1.ubuntu.18.04_amd64.deb && apt install -f
+RUN dpkg -i powershell_6.2.1-1.ubuntu.18.04_amd64.deb && apt install -f
 
 # Update the list of products
 #apt update
