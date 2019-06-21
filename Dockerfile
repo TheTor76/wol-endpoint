@@ -9,6 +9,9 @@ ENV LISTEN_IP="127.0.0.1" \
     WINRM_USERNAME="administrator" \
     WINRM_PASSWORD="xxxx" \
     WINRM_ENDPOINT="https://127.0.0.1:5986/wsman" \
+    SSH_ENDPOINT="127.0.0.1" \
+    SSH_USERNAME="ubuntu" \
+    SSH_PASSWORD="xxxx" \
     USE_SSL="1" \
     SSL_PEER_FINGERPRINT="xxxx" \
     WOL_BROADCAST_ADDR="255.255.255.255"
@@ -20,7 +23,7 @@ RUN apt update && \
 
 #install locales-all below to stop the crap further down throwing errors
 RUN apt install -y etherwake locales locales-all ruby-full && \
-    gem install -r winrm
+    gem install -r winrm net-ssh
 
 ##################### POWERSHELL #####################      
 #https://docs.microsoft.com/en-gb/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6#installation---raspbian
@@ -48,10 +51,11 @@ WORKDIR /app
 ADD src/server.js ./
 ADD src/open_winrm.rb ./
 ADD src/send_wol.sh ./
+ADD src/open_ssh.rb ./
 RUN node -v
 RUN npm -v
 RUN npm init -y && \
-    chmod 0555 open_winrm.rb server.js send_wol.sh
+    chmod 0555 open_winrm.rb server.js send_wol.sh open_ssh.rb
 
 VOLUME ["/var/log"]
 
