@@ -28,11 +28,12 @@ function handleConnection(conn) {
 
     switch(d){
       case 'shutdown':
-      case 'psshutdown/sleep':
-      case 'sleep':
+      case 'psshutdown/sleep':      
       case 'test':
         cmd = 'ruby /app/open_winrm.rb ' + d;
       break;
+      case 'sleep':
+        cmd = 'ruby /app/open_ssh.rb'
       case 'wake':
         cmd = '/app/send_wol.sh ' + process.env.WOL_MAC;
       break
