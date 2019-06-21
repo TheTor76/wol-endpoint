@@ -23,7 +23,7 @@ RUN apt update && \
 
 #install locales-all below to stop the crap further down throwing errors
 RUN apt install -y etherwake locales locales-all ruby-full && \
-    gem install -r winrm net-ssh
+    gem install -r winrm net-ssh pm-utils
 
 ##################### POWERSHELL #####################      
 #https://docs.microsoft.com/en-gb/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6#installation---raspbian
