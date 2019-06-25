@@ -36,6 +36,7 @@ function handleConnection(conn) {
       case 'hibernate':
       case 'suspend':
         cmd = 'ruby /app/open_ssh.rb ' + d;
+      break;
       case 'wake':
         cmd = '/app/send_wol.sh ' + process.env.WOL_MAC;
       break
