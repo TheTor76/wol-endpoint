@@ -22,7 +22,7 @@ RUN apt update && \
     apt clean
 
 #install locales-all below to stop the crap further down throwing errors
-RUN apt install -y etherwake locales locales-all ruby-full pm-utils && \
+RUN apt install -y etherwake locales locales-all ruby-full && \
     gem install -r winrm net-ssh
     
 ##################### POWERSHELL #####################      
