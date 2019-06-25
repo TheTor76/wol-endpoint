@@ -32,6 +32,8 @@ Net::SSH.start(ENV['SSH_ENDPOINT'], ENV['SSH_USERNAME'], :password => ENV['SSH_P
   channel = ssh.open_channel do |ch|
     ch.exec command do |ch, success|
       raise "could not execute command" unless success
+      
+      $stdout.print "executing command: " + command
 
       # "on_data" is called when the process writes something to stdout
       ch.on_data do |c, data|
