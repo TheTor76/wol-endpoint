@@ -13,7 +13,8 @@ ENV LISTEN_IP="127.0.0.1" \
     SSH_ENDPOINT="127.0.0.1" \
     SSH_USERNAME="ubuntu" \
     SSH_PASSWORD="xxxx" \
-    USE_SSH_KEY="1" \    
+    USE_SSH_KEY="1" \ 
+    SSH_PASSPHRASE="xxxx" \
     SSL_PEER_FINGERPRINT="xxxx" \
     WOL_BROADCAST_ADDR="255.255.255.255"
 
