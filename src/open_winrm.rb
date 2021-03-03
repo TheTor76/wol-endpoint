@@ -8,7 +8,7 @@ if ARGV[0] == 'test' then
 elsif ARGV[0] == 'shutdown' then
 	command = 'shutdown /s /f /t 0'
 elsif ARGV[0] == 'psshutdown/sleep'
-	command = 'psshutdown -d -t -accepteula 0'
+	command = 'psshutdown -d -t 0'
 elsif ARGV[0] == 'psshutdown/hibernate'
 	command = 'psshutdown -h -t 0'
 else
