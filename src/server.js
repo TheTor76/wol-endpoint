@@ -28,7 +28,8 @@ function handleConnection(conn) {
 
     switch(d){
       case 'shutdown':
-      case 'psshutdown/sleep':      
+      case 'psshutdown/sleep': 
+      case 'psshutdown/hibernate': 
       case 'test':
         cmd = 'ruby /app/open_winrm.rb ' + d;
       break;
