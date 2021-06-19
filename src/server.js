@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 
 var net = require('net');
-
 var server = net.createServer();
 server.on('connection', handleConnection);
-
-var deviceStatus = 0;
 
 server.listen(process.env.LISTEN_PORT, process.env.LISTEN_IP, 511, function() {
   console.log('server listening to %j', server.address());
@@ -54,17 +51,15 @@ function handleConnection(conn) {
         conn.write('device status: test');
       break
       case 'status':
-        conn.write('device status:', deviceStatus);
+        conn.write('device status:', '?');
       break
       case 'wake':
         cmd = '/app/send_wol.sh ' + process.env.WOL_MAC;
-        deviceStatus = 1;
       break
       case 'shutdown':
       case 'psshutdown/sleep': 
       case 'psshutdown/hibernate': 
         cmd = 'ruby /app/open_winrm.rb ' + d;
-        deviceStatus = 0;
       break;      
       default:
         conn.write('unknown data value returing early');
