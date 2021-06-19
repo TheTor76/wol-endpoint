@@ -51,10 +51,10 @@ function handleConnection(conn) {
 
     switch(d){
       case 'test':
-        document.write('test');
+        conn.write('device status: test');
       break
       case 'status':
-        document.write(deviceStatus);
+        conn.write('device status:', deviceStatus);
       break
       case 'wake':
         cmd = '/app/send_wol.sh ' + process.env.WOL_MAC;
