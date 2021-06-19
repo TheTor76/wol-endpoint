@@ -1,5 +1,5 @@
 # wol-endpoint
-simple node server running in docker to send WOL packets from local machine and run powershell sleep/shutdown commands on remote pc for use with [homebridge](https://github.com/homebridge/homebridge) for alexa integration. Requires 2 plugins ([homebridge-alexa] (https://github.com/NorthernMan54/homebridge-alexa) and [homebridge-http-switch] (https://github.com/Supereg/homebridge-http-switch). Also requires enabling the [homebridge] (https://www.amazon.co.uk/Northern-Man-54-Homebridge/dp/B07B9QMTFQ) Alexa skill.
+simple node server running in docker to send WOL packets from local machine and run powershell sleep/shutdown commands on remote pc for use with [homebridge](https://github.com/homebridge/homebridge) for alexa integration. Requires 2 plugins [homebridge-alexa](https://github.com/NorthernMan54/homebridge-alexa) and [homebridge-http-switch](https://github.com/Supereg/homebridge-http-switch). Also requires enabling the [homebridge](https://www.amazon.co.uk/Northern-Man-54-Homebridge/dp/B07B9QMTFQ) Alexa skill.
 
 ## Example usage (http)
 ```
