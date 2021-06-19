@@ -53,7 +53,6 @@ WORKDIR /app
 ADD src/server.js ./
 ADD src/open_winrm.rb ./
 ADD src/send_wol.sh ./
-ADD src/open_ssh.rb ./
 RUN node -v
 RUN npm -v
 RUN npm init -y && \
