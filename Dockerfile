@@ -56,7 +56,7 @@ ADD src/send_wol.sh ./
 RUN node -v
 RUN npm -v
 RUN npm init -y && \
-    chmod 0555 open_winrm.rb server.js send_wol.sh open_ssh.rb
+    chmod 0555 open_winrm.rb server.js send_wol.sh
 
 VOLUME ["/var/log"]
 
