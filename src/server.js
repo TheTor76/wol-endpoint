@@ -24,17 +24,13 @@ function handleConnection(conn) {
     var sys = require('sys')
     var exec = require('child_process').exec;
     var cmd;
-    
-    var l = d.includes("test");
+
     var m = d.includes("wake");
     var n = d.includes("sleep");       
     var o = d.includes("shutdown");
     var p = d.includes("hibernate");    
-    var q = d.includes("status");
     
-    if(l){
-      d = "test";
-    } else if(m){
+    if(m){
       d = "wake";
     } else if(n){
       d = "psshutdown/sleep";
@@ -42,17 +38,9 @@ function handleConnection(conn) {
       d = "shutdown";
     } else if(p){
       d = "psshutdown/hibernate";
-    } else if(q){
-      d = "status";
     };
 
-    switch(d){
-      case 'test':
-        conn.write('device status: test');
-      break
-      case 'status':
-        conn.write('device status:', '?');
-      break
+    switch(d){     
       case 'wake':
         cmd = '/app/send_wol.sh ' + process.env.WOL_MAC;
       break
